@@ -1,6 +1,6 @@
 %{
 coregisterEstimateReslice
-Author: Tom Bullock, UCSB Attention Lab
+Author: Tom Bullock (based on Tyler Santander scripts)
 Date: 07.23.18
 %}
 

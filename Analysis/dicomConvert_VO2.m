@@ -1,6 +1,6 @@
 %{
 dicomConvert_VO2
-Author: Tom Bullock (based on Tyler scripts)
+Author: Tom Bullock (based on Tyler Santander scripts)
 Date: 07.23.18
 
 NOTES: 

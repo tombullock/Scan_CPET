@@ -1,10 +1,7 @@
 %{
 singleTrialModeling
-Author: Tom Bullock, UCSB Attention Lab
+Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.17.18
-
-NOTE: check that the pre VO2max session is "0003" and post VO2max is "0006"
- 127 "post" is not pre-processed yet...don't run
 
 %}
 

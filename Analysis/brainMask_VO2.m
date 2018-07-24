@@ -1,6 +1,6 @@
 %{
 brainMask_VO2
-Author: Tom Bullock (adapted from Tyler script)
+Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.23.18
 
 NOTES: 

@@ -1,6 +1,6 @@
 %{
 segmentStrip_VO2
-Author: Tom Bullock, UCSB Attention Lab
+Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.23.18
 
 NOTE: make more flexible wrt subject nums

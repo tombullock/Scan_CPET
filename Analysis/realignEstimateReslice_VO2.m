@@ -1,6 +1,6 @@
 %{
 realignEstimateReslice_VO2
-Author: Tom Bullock, UCSB Attention Lab
+Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.23/.18
 
 NOTE: why didn't this bring up the movement summary pdf?  Did it get saved?
