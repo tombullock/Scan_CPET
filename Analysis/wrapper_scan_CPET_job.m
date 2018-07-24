@@ -1,5 +1,5 @@
 %{
-IEM_run_model_hilbert_job
+wrapper_scan_CPET_job
 Author: Tom
 Date: 04.16.18
  
@@ -12,7 +12,7 @@ close all
 rDir = '/home/bullock/Scan_CPET/Subject_Data';
 
 % add analysis scripts folder to path
-addpath(genpath('/home/bullock/VO2_fMRI/Analysis'))
+addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 
 % cd to subject data folder and get files
 cd(rDir);
@@ -27,8 +27,7 @@ job=createJob(s,'Name','Tom_Job');
 
 job.AttachedFiles = {'wrapper_scan_CPET.m'};
 
-%%% ONLY FIRST 3
-for iSub =1:3;%length(d)
+for iSub =1:1%length(d)
     sjNum = d(iSub).name;
     disp(['Processing ' sjNum])
     job.createTask(@wrapper_scan_CPET,0,{sjNum,rDir})

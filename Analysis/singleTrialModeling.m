@@ -1,5 +1,5 @@
 %{
-CREATE_MRI_DESIGN_MATRIX_SINGLE_TRIAL
+singleTrialModeling
 Author: Tom Bullock, UCSB Attention Lab
 Date: 07.17.18
 
@@ -8,12 +8,30 @@ NOTE: check that the pre VO2max session is "0003" and post VO2max is "0006"
 
 %}
 
-clear
-close all
+function singleTrialModeling(sjNum,thisSession)
+
+
+
+%% add analysis scripts folder to path
+addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
+%spm_rmpath
+addpath /home/bullock/spm12
+
+%for iSub=1:1;%length(subjects)
+
+%sjNum = subjects(iSub);
+
+%for thisSession=1:2 % 1(pre), 2(post)
 
 %% which subject and run (i.e. pre vs. post VO2)
-sjNum=127;
-thisSession = 1; % 1= pre VO2max, 2=post VO2max
+%sjNum=127;
+%thisSession = 1; % 1= pre VO2max, 2=post VO2max
+
+if thisSession==1
+    sessionID='task_pre';
+else
+    sessionID='task_post';
+end
 
 %% TEMP
 iRun=1;
@@ -22,18 +40,25 @@ iRun=1;
 spm_get_defaults;
 
 % set dirs (*)
-subjectDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_0003';
-mrDataPath = sprintf('/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_000%d',thisSession*3); % preprocessed MR data
-trialData = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/TrialMats_SPM'; % preprocessed trial data
+rootDir = '/home/bullock/Scan_CPET';
 
+mrDataPath = [rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.functional.' sessionID ];
+
+%subjectDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_0003';
+%mrDataPath = sprintf('/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_000%d',thisSession*3); % preprocessed MR data
+trialData = '/home/bullock/Scan_CPET/Trial_Data'; % preprocessed trial data
 dataDir = mrDataPath;
+
+mkdir([rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.singleTrial.' sessionID]);
+destDir = [rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.singleTrial.' sessionID];
 
 % % get trial onsets/durations for this run.
 % fileID = strcat([subjectDir '/data.behavior/'], spm_select('List', [subjectDir '/data.behavior/'], ['^' subID '-run' num2str(iRun) '.mat$']));
 % [review, comp, prose, errors] = csfMRI_getBlockOnsets(fileID);
 
-%% load the trialData 
-load([trialData '/' sprintf('sj%d_se%02d_trialMat_for_SPM.mat',sjNum,thisSession)]);
+%% load the trialData
+%load([trialData '/' sprintf('sj%d_se%02d_trialMat_for_SPM.mat',sjNum,thisSession)]);
+load([trialData '/' sprintf('sj%d_se%02d_VO2scan_for_MR.mat',sjNum,thisSession)]);
 
 %% get list of pre-processed nii files in the dir
 d=dir([mrDataPath '/' 'uf*']);
@@ -48,7 +73,7 @@ for iTrial = 1:length(allTrialsMat)
     fprintf('====== PROCESSSING TRIAL %d of %d ======',iTrial,length(allTrialsMat))
     
     % get basic batch inputs
-    matlabbatch = csfMRI_initializeDesign;
+    matlabbatch = csfMRI_initializeDesign(sjNum,rootDir); %csfMRI_initializeDesign;
     
     % Onset/duration for this trial.
     trialOn  = allTrialsMat(iTrial,2); % onset
@@ -75,26 +100,29 @@ for iTrial = 1:length(allTrialsMat)
     matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).tmod     = 0;
     matlabbatch{1}.spm.stats.fmri_spec.sess.cond(2).pmod     = struct('name',{},'param',{},'poly',{});
     
-%     % Create a directory to store this model. ***MAKE A RESULTDS DIR AT
-%     TOP
-%     mkdir(['results.glm.reviewBeta' num2str(iRun) '-' num2str(iTrial)]);
-%     cd(['results.glm.reviewBeta' num2str(iRun) '-' num2str(iTrial)]);
+    %     % Create a directory to store this model. ***MAKE A RESULTDS DIR AT
+    %     TOP
+    %     mkdir(['results.glm.reviewBeta' num2str(iRun) '-' num2str(iTrial)]);
+    %     cd(['results.glm.reviewBeta' num2str(iRun) '-' num2str(iTrial)]);
     %resultsDir = pwd;
-    resultsDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults';
-    cd '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults';
+    %resultsDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults';
+    
+    %cd '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults';
+    % CD to destDir
+    cd(destDir)
     
     % Grab the scans and specify/estimate the model.
     scans = thisNii;
-   
+    
     % TYLER CODE
     %scans = strcat([subjectDir '/' dataDir '/'], spm_select('List', ['../' dataDir], '^wuf.*nii$'));
     
     matlabbatch{1}.spm.stats.fmri_spec.sess.scans = cellstr(scans);
-    matlabbatch{1}.spm.stats.fmri_spec.dir        = cellstr(resultsDir);
+    matlabbatch{1}.spm.stats.fmri_spec.dir        = cellstr(destDir);
     
     spm_jobman('run', matlabbatch);
     
-    csfMRI_estimateDesign; 
+    csfMRI_estimateDesign(destDir);
     
     % delete the SPM.mat (not needed, will make spm pop up GUI window)
     delete('SPM.mat')
@@ -106,6 +134,12 @@ for iTrial = 1:length(allTrialsMat)
     
 end % iTrial loop
 
+%end % thisSession loop
+
+%end % subject loop
+
+end %function
+
 
 
 
@@ -113,7 +147,7 @@ end % iTrial loop
 % BEGIN SUBROUTINES
 % ----------------------------------------------------------------------- %
 
-function matlabbatch = csfMRI_initializeDesign
+function matlabbatch = csfMRI_initializeDesign(sjNum,rootDir)
     
     spm('defaults','FMRI');
     warning off MATLAB:FINITE:obsoleteFunction;
@@ -137,17 +171,19 @@ function matlabbatch = csfMRI_initializeDesign
     matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
     matlabbatch{1}.spm.stats.fmri_spec.volt             = 1;
     matlabbatch{1}.spm.stats.fmri_spec.global           = 'None';
-    matlabbatch{1}.spm.stats.fmri_spec.mask             = cellstr(['/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/hiRes/brainmask.nii']);
+    %%matlabbatch{1}.spm.stats.fmri_spec.mask             = cellstr(['/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/hiRes/brainmask.nii']);
+    matlabbatch{1}.spm.stats.fmri_spec.mask             = cellstr([rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.anatomical.mask' '/' 'brainmask.nii']);
     matlabbatch{1}.spm.stats.fmri_spec.cvi              = 'AR(1)';
 
 end
 
-function csfMRI_estimateDesign
+function csfMRI_estimateDesign(destDir)
 
     matlabbatch = {};
 
     %matlabbatch{1}.spm.stats.fmri_est.spmmat           = cellstr(strcat([pwd '/'], spm_select('List', pwd, '^SPM.*mat$')));
-    matlabbatch{1}.spm.stats.fmri_est.spmmat = cellstr(['/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults' '/' 'SPM.mat']);
+    %matlabbatch{1}.spm.stats.fmri_est.spmmat = cellstr(['/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/glmResults' '/' 'SPM.mat']);
+    matlabbatch{1}.spm.stats.fmri_est.spmmat = cellstr([destDir '/' 'SPM.mat']);
     matlabbatch{1}.spm.stats.fmri_est.method.Classical = 1;
 
     spm_jobman('run', matlabbatch);
