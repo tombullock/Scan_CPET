@@ -27,7 +27,7 @@ job=createJob(s,'Name','Tom_Job');
 
 job.AttachedFiles = {'wrapper_scan_CPET.m'};
 
-for iSub =1:1%length(d)
+for iSub =1:length(d)
     sjNum = d(iSub).name;
     disp(['Processing ' sjNum])
     job.createTask(@wrapper_scan_CPET,0,{sjNum,rDir})
