@@ -8,9 +8,9 @@ Date: 04.16.18
 clear 
 close all
 
-subjects = [112,119,121,125,127,130,133];
+subjects = [119,121,125,127,130,133]; % 112 not ready yet
 
-%%subjects = 112;
+subjects = 112;
 
 % define directory with subject data
 %%rDir = '/home/bullock/Scan_CPET/Subject_Data';
@@ -23,17 +23,17 @@ addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 % d=dir('sj*');
 % cd ..
 
-thisFunction = 'singleTrialModeling.m';
+thisFunction = 'compileBetasRunIEM.m';
 s = parcluster;
 s.ResourceTemplate='-l nodes=^N^:ppn=4,mem=7GB';
 job=createJob(s,'Name','Tom_Job');
-job.AttachedFiles = {'singleTrialModeling.m'};
+job.AttachedFiles = {'compileBetasRunIEM.m','compile_Betas_For_Modeling.m','runIEM_VO2.m'};
 
 for iSub =1:length(subjects)
     sjNum=subjects(iSub);
     for thisSession=1:2
         disp(['Processing ' sjNum])
-        job.createTask(@singleTrialModeling,0,{sjNum,thisSession})
+        job.createTask(@compileBetasRunIEM,0,{sjNum,thisSession})
     end
 end
 job.submit

@@ -37,9 +37,9 @@ coregisterEstimateReslice
 %% close SPM session
 close all
 
-%% organize data and run IEM (subs 112,119,121,125,127,130,133)
-% singleTrialModeling
-% compile_Betas_For_Modeling
-% runIEM_VO2
+% %% organize data and run IEM (subs 112,119,121,125,127,130,133)
+% % singleTrialModeling
+% % compile_Betas_For_Modeling
+% % runIEM_VO2
 
 return

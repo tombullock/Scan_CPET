@@ -4,15 +4,18 @@ Author: Tom Bullock
 Date: 07.21.18
 %}
 
-clear
-close all
+%%clear
+%%close all
+
+function runIEM_VO2(sjNum,thisSession)
 
 %% set dirs
-destDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/IEM_Results';
+sourceDir = '/home/bullock/Scan_CPET/Single_Trial_Data';
+destDir = '/home/bullock/Scan_CPET/IEM_Results';
 
-%% subject/session
-sjNum=127;
-thisSession = 1;
+% % %% subject/session
+% % sjNum=119;
+% % thisSession = 1;
 
 
 %% seed rng
@@ -26,12 +29,12 @@ nBF=6; %set number of basis functions
 shiftFactor = round(nBF/2); %ensure it works for even and odd number of BF
 tbasis = [sind(0:30:150)].^7;  % creates the sin basis function
 
-load(['/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/Single_Trial_Data' '/' sprintf('sj%d_se%02d_single_trial.mat',sjNum,thisSession)])
+load([sourceDir '/' sprintf('sj%d_se%02d_single_trial.mat',sjNum,thisSession)])
 
 
 %% isolate orientation and location trials in the run (and remove target repeat trials) (col1: cond1=loc,cond2=ori, col5=ori,col6=loc)
 cntLoc=0; cntOri=0;
-for iTrial = 1:size(allTrialsMat,1) 
+for iTrial = 1:size(allTrialsMat,1)
     if allTrialsMat(iTrial,1)==1 && allTrialsMat(iTrial,7)~=1  % if location condition and not a targ repeat
         cntLoc=cntLoc+1;
         locTrialMat(cntLoc,:) = allTrialsMat(iTrial,:);
@@ -41,9 +44,9 @@ for iTrial = 1:size(allTrialsMat,1)
         cntOri=cntOri+1;
         oriTrialMat(cntOri,:) = allTrialsMat(iTrial,:);
         oriTrialVoxelMat(cntOri,:) = voxelMat(iTrial,:);
-    end 
+    end
 end
-    
+
 %% run IEM on both location (1) and orientation (2) experiments
 realTF = [];
 permTF = [];
@@ -160,16 +163,18 @@ end
 
 save([destDir '/' sprintf('sj%d_se%02d_allTF.mat',sjNum,thisSession)],'realTF','permTF')
 
-%% produce a quick plot
-plot(realTF(1,:),'color','r','LineWidth',2); hold on % row1 = location
-plot(realTF(2,:),'color','b','LineWidth',2);         % row2 = orientation
-plot(permTF(1,:),'color','r','LineWidth',2,'LineStyle','--');
-plot(permTF(2,:),'color','b','LineWidth',2,'LineStyle','--');
+end
 
-legend('loc-real','ori-real','loc-permuted','ori-permuted','location','north')
-ylabel('BOLD RESPONSE')
-xlabel('Channel Offset')
-set(gca,'LineWidth',1,'xtick',[1:6],'xticklabel',{'-120','-60 ',' 0  ',' 60 ',' 120', '180 '},'FontSize',24)
+% %% produce a quick plot
+% plot(realTF(1,:),'color','r','LineWidth',2); hold on % row1 = location
+% plot(realTF(2,:),'color','b','LineWidth',2);         % row2 = orientation
+% plot(permTF(1,:),'color','r','LineWidth',2,'LineStyle','--');
+% plot(permTF(2,:),'color','b','LineWidth',2,'LineStyle','--');
+% 
+% legend('loc-real','ori-real','loc-permuted','ori-permuted','location','north')
+% ylabel('BOLD RESPONSE')
+% xlabel('Channel Offset')
+% set(gca,'LineWidth',1,'xtick',[1:6],'xticklabel',{'-120','-60 ',' 0  ',' 60 ',' 120', '180 '},'FontSize',24)
     
 
 
