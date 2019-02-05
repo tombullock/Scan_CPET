@@ -1,10 +1,10 @@
 %{
-Compile_Betas_For_Modeling
+compile_betas_IEM
 Author: Tom Bullock
 Date: 07.21.18
 %}
 
-function compile_Betas_For_Modeling(sjNum,thisSession)
+function compile_betas_IEM(sjNum,thisSession)
 
 addpath('/home/bullock/spm12')
 

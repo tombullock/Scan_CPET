@@ -1,19 +1,15 @@
 %{
-dicomConvert_VO2
+pre_dicomConvert_FL
 Author: Tom Bullock (based on Tyler Santander scripts)
 Date: 07.23.18
-
-NOTES: 
-Why does this not run with my script?  Runs ok via gui with same
-commands...
 %}
 
-function dicomConvert_VO2
+function pre_dicomConvert_FL
 
 % Rename the dicom directory pulled off BIC storage.
 
     dicomDir = dir([pwd '/study*']);
-    unix(['mv ./' dicomDir.name ' ./archive.rawdata']);
+    unix(['mv ./' dicomDir.name ' ./archive.rawdata_FL']);
 
 % Initialize default SPM configurations for fMRI.
 
@@ -23,8 +19,8 @@ function dicomConvert_VO2
     
 % Grab all the dicom images.
 
-    matlabbatch{1}.spm.util.import.dicom.data = cellstr(strcat([pwd '/archive.rawdata/'], ...
-        spm_select('List', [pwd '/archive.rawdata'], '^MR*')));
+    matlabbatch{1}.spm.util.import.dicom.data = cellstr(strcat([pwd '/archive.rawdata_FL/'], ...
+        spm_select('List', [pwd '/archive.rawdata_FL'], '^MR*')));
     
 % Outpute .nii files in folders based on protocol name, run conversion.
     
@@ -46,12 +42,19 @@ function dicomConvert_VO2
 % Toss the localizers, rename the other protocols into something more
 % intelligible for later preprocessing.
 
+
+
     unix('rm -r localizer*');
-    unix('mv ./t1 ./data.anatomical.hires'); % first grab t1 data from Allison folder
-    unix('mv ./epi_mb_3x3x3_400TR_Resting_Physio_pre_0002 ./data.functional.rest_pre');
-    unix('mv ./epi_mb_3x3x3_400TR_Resting_Physio_post_0005 ./data.functional.rest_post');
-    unix('mv ./epi_mb_3x3x3_400TR_Gra_Physio_pre_0003 ./data.functional.task_pre');
-    unix('mv ./epi_mb_3x3x3_400TR_Gra_Physio_post_0006 ./data.functional.task_post');
+    unix('mv ./cmrr_dsi* ./data.anatomical.dsi');
+    
+    unix('mv ./gre_field_mapping_2mm_0002 ./data.fieldmap.FL_map1');
+    unix('mv ./gre_field_mapping_2mm_0003 ./data.fieldmap.FL_map2');
+    
+    unix('mv ./epi_mb_700TR_R016a_0004 ./data.functional.ret_map_b1');
+    unix('mv ./epi_mb_700TR_R016a_0005 ./data.functional.ret_map_b2');
+    unix('mv ./epi_mb_700TR_R016a_0006 ./data.functional.ret_map_b3');
+    unix('mv ./epi_mb_700TR_R016a_0007 ./data.functional.FL_b1');
+    unix('mv ./epi_mb_700TR_R016a_0008 ./data.functional.FL_b2');
     
 end
 

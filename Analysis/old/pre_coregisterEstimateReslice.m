@@ -4,7 +4,7 @@ Author: Tom Bullock (based on Tyler Santander scripts)
 Date: 07.23.18
 %}
 
-function coregisterEstimateReslice
+function pre_coregisterEstimateReslice
 
 %%%ss-ms112T1.nii % source
 

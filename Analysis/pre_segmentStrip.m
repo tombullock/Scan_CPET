@@ -1,12 +1,12 @@
 %{
-segmentStrip_VO2
+pre_segmentStrip
 Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.23.18
 
 NOTE: make more flexible wrt subject nums
 %}
 
-function segmentStrip_VO2
+function pre_segmentStrip
 
 % % % CD TO DIR
 % % cd /Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/Subject_Data/sj112

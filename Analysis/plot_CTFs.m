@@ -1,5 +1,5 @@
 %{
-plot_CTFs_ScanVO2
+plot_CTFs
 Author:Tom Bullock
 Date: 07.24.18
 %}

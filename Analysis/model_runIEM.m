@@ -7,7 +7,7 @@ Date: 07.21.18
 %%clear
 %%close all
 
-function runIEM_VO2(sjNum,thisSession)
+function model_runIEM(sjNum,thisSession)
 
 %% set dirs
 sourceDir = '/home/bullock/Scan_CPET/Single_Trial_Data';
@@ -175,6 +175,3 @@ end
 % ylabel('BOLD RESPONSE')
 % xlabel('Channel Offset')
 % set(gca,'LineWidth',1,'xtick',[1:6],'xticklabel',{'-120','-60 ',' 0  ',' 60 ',' 120', '180 '},'FontSize',24)
-    
-
-

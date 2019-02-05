@@ -7,7 +7,7 @@ NOTES:
 
 %}
 
-function brainMask_VO2(smoothMask)
+function pre_brainMask(smoothMask)
 
 % Initialize default SPM configurations for fMRI.
 

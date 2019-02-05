@@ -5,24 +5,12 @@ Date: 07.17.18
 
 %}
 
-function singleTrialModeling(sjNum,thisSession)
-
-
+function model_getSingleTrials(sjNum,thisSession)
 
 %% add analysis scripts folder to path
 addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 %spm_rmpath
 addpath /home/bullock/spm12
-
-%for iSub=1:1;%length(subjects)
-
-%sjNum = subjects(iSub);
-
-%for thisSession=1:2 % 1(pre), 2(post)
-
-%% which subject and run (i.e. pre vs. post VO2)
-%sjNum=127;
-%thisSession = 1; % 1= pre VO2max, 2=post VO2max
 
 if thisSession==1
     sessionID='task_pre';

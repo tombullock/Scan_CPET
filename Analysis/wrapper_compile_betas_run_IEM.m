@@ -4,13 +4,13 @@ Author: Tom Bullock
 Date: 07.24.18
 %}
 
-function compileBetasRunIEM(sjNum,thisSession)
+function wrapper_compile_betas_run_IEM(sjNum,thisSession)
 
 % add analysis scripts folder to path
 addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 
-compile_Betas_For_Modeling(sjNum,thisSession)
-runIEM_VO2(sjNum,thisSession)
+compile_betas_IEM(sjNum,thisSession)
+model_runIEM(sjNum,thisSession)
 
 return
 

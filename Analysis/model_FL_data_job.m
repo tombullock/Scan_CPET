@@ -1,14 +1,14 @@
 %{
-singleTrialModeling_job
+model_FL_data_job
 Author: Tom
 Date: 04.16.18
  
 %}
 
 clear 
-close all
+%close all
 
-subjects = [112,119,121,125,127,130,133];
+subjects = [112,119,121,125,127,133];
 
 %%subjects = 112;
 
@@ -23,17 +23,18 @@ addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 % d=dir('sj*');
 % cd ..
 
-thisFunction = 'singleTrialModeling.m';
+thisFunction = 'model_FL_data.m';
 s = parcluster;
 s.ResourceTemplate='-l nodes=^N^:ppn=4,mem=7GB';
 job=createJob(s,'Name','Tom_Job');
-job.AttachedFiles = {'singleTrialModeling.m'};
+job.AttachedFiles = {thisFunction};
 
 for iSub =1:length(subjects)
     sjNum=subjects(iSub);
-    for thisSession=1:2
-        disp(['Processing ' sjNum])
-        job.createTask(@singleTrialModeling,0,{sjNum,thisSession})
-    end
+    %for thisSession=1:2
+        disp(['Processing ' num2str(sjNum)])
+        %job.createTask(@FL_modeling,0,{sjNum,thisSession})
+        model_FL_data(sjNum)
+    %end
 end
-job.submit
+%%%%job.submit

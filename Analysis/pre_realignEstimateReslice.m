@@ -1,5 +1,5 @@
 %{
-realignEstimateReslice_VO2
+pre_realignEstimateReslice
 Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.23/.18
 
@@ -11,13 +11,18 @@ ADD IN THE MOTION STATS CALCULATION STUFF FROM TYLER
 
 %}
 
-function realignEstimateReslice_VO2
+function pre_realignEstimateReslice(taskDataPresent)
+
+% task data present for this subject?
+%%%%taskDataPresent = 0;
 
 % Initialize default SPM configurations for fMRI.
 setDefaultsSPM;
 
 %% get scans from the different data files
 matlabbatch = {};
+
+
 
 matlabbatch{1}.spm.spatial.realignunwarp.data(1).scans  = cellstr(strcat([pwd '/data.functional.rest_pre/'], ...
     spm_select('List', [pwd '/data.functional.rest_pre'], '^f.*nii$')));
@@ -29,15 +34,25 @@ matlabbatch{1}.spm.spatial.realignunwarp.data(2).scans  = cellstr(strcat([pwd '/
 
 matlabbatch{1}.spm.spatial.realignunwarp.data(2).pmscan = {' '}; % empty because no field maps
 
-matlabbatch{1}.spm.spatial.realignunwarp.data(3).scans  = cellstr(strcat([pwd '/data.functional.task_pre/'], ...
-    spm_select('List', [pwd '/data.functional.task_pre'], '^f.*nii$')));
-
-matlabbatch{1}.spm.spatial.realignunwarp.data(3).pmscan = {' '}; % empty because no field maps
-
-matlabbatch{1}.spm.spatial.realignunwarp.data(4).scans  = cellstr(strcat([pwd '/data.functional.task_post/'], ...
-    spm_select('List', [pwd '/data.functional.task_post'], '^f.*nii$')));
-
-matlabbatch{1}.spm.spatial.realignunwarp.data(4).pmscan = {' '}; % empty because no field maps
+if taskDataPresent
+    
+    disp('PROCESSING TASK DATA')
+    
+    matlabbatch{1}.spm.spatial.realignunwarp.data(3).scans  = cellstr(strcat([pwd '/data.functional.task_pre/'], ...
+        spm_select('List', [pwd '/data.functional.task_pre'], '^f.*nii$')));
+    
+    matlabbatch{1}.spm.spatial.realignunwarp.data(3).pmscan = {' '}; % empty because no field maps
+    
+    matlabbatch{1}.spm.spatial.realignunwarp.data(4).scans  = cellstr(strcat([pwd '/data.functional.task_post/'], ...
+        spm_select('List', [pwd '/data.functional.task_post'], '^f.*nii$')));
+    
+    matlabbatch{1}.spm.spatial.realignunwarp.data(4).pmscan = {' '}; % empty because no field maps
+    
+else
+    
+    disp('NOT PROCESSING TASK DATA')
+    
+end
 
 
 % Define all parameters for realign/unwarp estimation.
@@ -106,7 +121,13 @@ unix('mv ./data.functional.rest_pre/meanuf* ./data.functional.mean');
 
 % Loop through the scanning runs
 
-for iRun = 1:4
+if taskDataPresent==1
+    theseRuns=1:4;
+elseif taskDataPresent==0
+    theseRuns=[1,3];
+end
+
+for iRun = theseRuns
     
     if iRun==1; thisRun = 'rest_pre';
     elseif iRun==2; thisRun = 'task_pre';
