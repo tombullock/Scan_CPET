@@ -55,7 +55,7 @@ function pre_brainMask(smoothMask)
         matlabbatch = {};
         
         matlabbatch{1}.spm.spatial.smooth.data   = cellstr([pwd '/brainmask.nii']);
-        matlabbatch{1}.spm.spatial.smooth.fwhm   = [5 5 5];
+        matlabbatch{1}.spm.spatial.smooth.fwhm   = [6,6,6];%[5 5 5]; orignal
         matlabbatch{1}.spm.spatial.smooth.dtype  = 0;
         matlabbatch{1}.spm.spatial.smooth.im     = 0;
         matlabbatch{1}.spm.spatial.smooth.prefix = 's';

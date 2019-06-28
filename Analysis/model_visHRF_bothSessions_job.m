@@ -5,12 +5,13 @@ Date: 20.12.18
  
 %}
 
-clear 
-close all
+% clear 
+% close all
 
 subjects = [101,103,107,109,111,112,113,119,121,125,127,130,133,135];
+%subjects = 107;
 
-%%subjects = 112;
+
 
 % define directory with subject data
 %%rDir = '/home/bullock/Scan_CPET/Subject_Data';
@@ -19,7 +20,7 @@ subjects = [101,103,107,109,111,112,113,119,121,125,127,130,133,135];
 addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 
 %% run in parallel
-runInParallel = 1;
+runInParallel = 0;
 
 % % cd to subject data folder and get files
 % cd(rDir);

@@ -3,9 +3,7 @@ model_groupData
 Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 12.21.18
 
-This script allows me to contrast ori vs. loc within a single session (i.e.
-within "pre" or "post"...BUT does not allow me to contrast across sessions
-(e.g. Pre vs. Post ...see other script for that)
+Contrast HRF across sessions
 
 %}
 
@@ -44,12 +42,15 @@ for thisSession=1:2
     mkdir([rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.groupedTrial.' 'task_prePost']);
     destDir = [rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.groupedTrial.' 'task_prePost'];
     
+    %% REMOVE EXISTING SPM FILE (TO AVOID GETTING STUCK AT THE 'OVERWRITE' POPUP)!
+    delete([destDir '/' 'SPM.mat'])
+    
     
     %% load the trialData
     load([trialData '/' sprintf('sj%d_se%02d_trialMat_for_SPM.mat',sjNum,thisSession)]);
     
     %% get list of pre-processed nii files in the dir
-    d=dir([mrDataPath '/' 'uf*']);
+    d=dir([mrDataPath '/' 'suf*']); % was 'uf', but we actually want the smoothed 'suf' files...
     for i=1:length(d)
         thisNii(i,:) = [mrDataPath '/' d(i).name ',1']; % why the ',1' needed?
     end

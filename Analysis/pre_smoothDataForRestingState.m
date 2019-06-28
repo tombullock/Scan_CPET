@@ -27,7 +27,7 @@ function pre_smoothDataForRestingState(taskDataPresent)
         matlabbatch{1}.spm.spatial.smooth.data   = [mean; rest_pre; rest_post];
     end
         
-    matlabbatch{1}.spm.spatial.smooth.fwhm   = [5 5 5];
+    matlabbatch{1}.spm.spatial.smooth.fwhm   = [6 6 6]; % do 6m (orig was [5,5,5])
     matlabbatch{1}.spm.spatial.smooth.dtype  = 0;
     matlabbatch{1}.spm.spatial.smooth.im     = 0;
     matlabbatch{1}.spm.spatial.smooth.prefix = 's';

@@ -8,21 +8,47 @@ See wrapper function for overview of pipeline.
 
 NOTE THAT SUBJECTS 115,116,124 are RESTING STATE PRE vs. POST ONLY!
 
+# ANALYSIS PLAN
+
+SPM for pre-processing
+MARSBAR to extract ROI coordinates??
+Freesurfer + Benson Atlas to identify ROIs
+AFNI for visualization and producing plots
+
+
 # fMRI PREPROCESSING
 
 `pre_dicomConvert.m`                        Convert dicom (raw scanner files) to nifti files (SPM compatible)
 
 `pre_realignEstimateReslice.m`              Realign, estimate, reslice data
 
-`pre_coregister_anatomical2functional.m`    Co-register anatomical scan (T1) to functional scans
+`pre_segmentStrip.m`                        Isolate white/grey matter 
 
 `pre_brainMask.m`                           Create brain mask     
 
-`pre_segmentStrip.m`                        Isolate white/grey matter 
+`pre_coregister_anatomical2functional.m`    Co-register anatomical scan (T1) to functional scans
 
 `Report_FWD.m`                              Generate a report for framewise displacement on a per subject and condition basis
 
 `wrapper_SCEPT.m`                           Preprocessing wrapper.
+
+
+
+# HRF PROCESSING PIPELINE
+
+Do i need to smooth the brain mask?
+
+(SMOOTH DATA 6mm), spatially normalize, do 1st level GLM to specify contrasts...then 2nd level...
+
+`pre_smoothDataForRestingState.m`           Smooth data to increase SNR
+
+`model_visHRF_bothSessions.m`               Run model (collapse across trials)
+
+`contrasts_visHRF_both sessions.m`          Create various contrasts e.g. pre vs. post exercise
+
+%% WHY IS sj107 not working (contrasts script crashes)?
+       
+
 
 
 # IEM PROCESSING PIPELINE

@@ -5,7 +5,7 @@ Date: 07.23.18
 
 %}
 
-function wrapper_SCEPT(sjNum,rDir)
+function wrapper_SCPET(sjNum,rDir)
 
 %% ADD SUBJECT RULES (these subjects have no task data, only resting)
 if sum(strcmp(sjNum,{'sj115','sj116','sj124'}))==1
@@ -26,15 +26,15 @@ cd(thisDir);
 spm fmri
 
 %% pre-process ALL fMRI data
-pre_dicomConvert
-pre_realignEstimateReslice(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
-pre_segmentStrip
-pre_brainMask(0) % 0 = no smoothing (single trial), 1 = smoothing (resting state)
+%pre_dicomConvert
+%pre_realignEstimateReslice(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
+%pre_segmentStrip
+%pre_brainMask(0) % 0 = no smoothing (single trial), 1 = smoothing (resting state)
 pre_coregister_anatomical2functional
 
 
 %% pre-process for RESTING state analyses (this is incomplete 020519)
-smoothDataForRestingState(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
+%pre_smoothDataForRestingState(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
 
 % take preprocessed RS data and throw into a 4D nifti file
 % Global signal scaling (use median)

@@ -80,10 +80,13 @@ contrastMat_Pre_vs_Post_Central_All_Locations = [...
 
 %% Apply contrasts to respective folders
 rDir = '/home/bullock/Scan_CPET/Subject_Data';
-subjects = [101,103,107,109,111,112,113,119,121,125,127,130,133,135];
+subjects = [101,103,109,111,112,113,119,121,125,127,130,133,135];
+
+subjects =107; % why won't this person run?
+
 
 for iSub=1:length(subjects)
-    sjNum=subjects(iSub);
+    sjNum=subjects(iSub)
     
     destDir = [rDir '/sj' num2str(sjNum) '/data.groupedTrial.task_prePost'];
     

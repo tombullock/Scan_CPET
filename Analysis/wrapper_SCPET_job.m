@@ -17,27 +17,27 @@ addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 % cd to subject data folder and get files
 cd(rDir);
 %d=[dir('sj115*');dir('sj116*');dir('sj124*')];
-d=dir('sj*'); % 133 works
+d=dir('sj111*'); % 133 works
 cd ..
 
 % run in parallel or serial?
-runParallel = 1;
+runParallel = 0;
 
 if runParallel
-    thisFunction = 'wrapper_scan_CPET.m';
+    thisFunction = 'wrapper_SCPET.m';
     s = parcluster;
     s.ResourceTemplate='-l nodes=^N^:ppn=4,mem=7GB';
     job=createJob(s,'Name','Tom_Job');
-    job.AttachedFiles = {'wrapper_scan_CPET.m'};
+    job.AttachedFiles = {'wrapper_SCPET.m'};
 end
 
 for iSub =1:length(d)
     sjNum = d(iSub).name;
     disp(['Processing ' sjNum])
     if runParallel
-        job.createTask(@wrapper_scan_CPET,0,{sjNum,rDir})
+        job.createTask(@wrapper_SCPET,0,{sjNum,rDir})
     else
-        wrapper_scan_CPET(sjNum,rDir)
+        wrapper_SCPET(sjNum,rDir)
     end
 end
 
