@@ -27,10 +27,10 @@ spm fmri
 
 %% pre-process ALL fMRI data
 %pre_dicomConvert
-%pre_realignEstimateReslice(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
+pre_realignEstimateReslice(taskDataPresent) % 0=no task data, 1=task data (some subs - 115,116,124 - only have resting data)
 %pre_segmentStrip
 %pre_brainMask(0) % 0 = no smoothing (single trial), 1 = smoothing (resting state)
-pre_coregister_anatomical2functional
+
 
 
 %% pre-process for RESTING state analyses (this is incomplete 020519)

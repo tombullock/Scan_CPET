@@ -2,6 +2,8 @@
 compile_betas_IEM
 Author: Tom Bullock
 Date: 07.21.18
+
+This script reads each beta (.nii) 
 %}
 
 function compile_betas_IEM(sjNum,thisSession)
@@ -30,7 +32,7 @@ for iTrial=1:length(d)
 end
 
 % load trialmat (for trial details)
-load(['/home/bullock/Scan_CPET/Trial_Data' '/' sprintf('sj%d_se%02d_VO2scan_for_MR.mat',sjNum,thisSession)])
+load(['/home/bullock/Scan_CPET/Trial_Mats/Trial_Data_Processed' '/' sprintf('sj%d_se%02d_VO2scan_for_MR.mat',sjNum,thisSession)])
 
 %%load('/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/TrialMats/sj127_se01_VO2scan_for_MR.mat')
 

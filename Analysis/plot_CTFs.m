@@ -2,6 +2,8 @@
 plot_CTFs
 Author:Tom Bullock
 Date: 07.24.18
+
+% just select the part you want for now (individual or group)
 %}
 
 clear 
@@ -9,9 +11,11 @@ close all
 
 sourceDir = '/home/bullock/Scan_CPET/IEM_Results';
 
-plotIndividualSubs = 0;
+plotIndividualSubs = 1;
 
-subjects = [112,119,121,125,127,130,133]; % 112 not ready yet
+%subjects = 101;
+subjects = [101,103,107,109,111,112,113,119,121,125,127,130,133,135];
+
 
 % compile all subs matrix
 for iSub=1:length(subjects)
@@ -50,9 +54,9 @@ if plotIndividualSubs==1
         
         legend('pre-ori-real','post-ori-real','pre-ori-perm','post-ori-perm','location','north')
         
-        pause(5)
+       pause(5)
         
-        close
+       close
         
     end
 end

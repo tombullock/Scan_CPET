@@ -17,11 +17,11 @@ addpath(genpath('/home/bullock/Scan_CPET/Analysis'))
 % cd to subject data folder and get files
 cd(rDir);
 %d=[dir('sj115*');dir('sj116*');dir('sj124*')];
-d=dir('sj111*'); % 133 works
+d=dir('sj*'); % 133 works
 cd ..
 
 % run in parallel or serial?
-runParallel = 0;
+runParallel = 1;
 
 if runParallel
     thisFunction = 'wrapper_SCPET.m';

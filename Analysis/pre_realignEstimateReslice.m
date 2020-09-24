@@ -143,7 +143,8 @@ for iRun = theseRuns
         spm_select('List', [pwd '/data.functional.' thisRun], '^rp.*txt$')));
     
     % Compute and store.
-    rpData(:,4:6) = rpData(:,4:6) .* (2*50*pi/360);
+    %rpData(:,4:6) = rpData(:,4:6) .* (2*50*pi/360);
+    rpData(:,4:6) = rpData(:,4:6)*50;
     dx            = diff(rpData);
     fwd           = sum(abs(dx),2);
     

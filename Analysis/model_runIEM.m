@@ -10,7 +10,8 @@ Date: 07.21.18
 function model_runIEM(sjNum,thisSession)
 
 %% set dirs
-sourceDir = '/home/bullock/Scan_CPET/Single_Trial_Data';
+sourceDirData = '/home/bullock/Scan_CPET/Single_Trial_Data';
+sourceDirMask = '/home/bullock/Scan_CPET/Benson_Visual_Cortex_Masks';
 destDir = '/home/bullock/Scan_CPET/IEM_Results';
 
 % % %% subject/session
@@ -29,7 +30,16 @@ nBF=6; %set number of basis functions
 shiftFactor = round(nBF/2); %ensure it works for even and odd number of BF
 tbasis = [sind(0:30:150)].^7;  % creates the sin basis function
 
-load([sourceDir '/' sprintf('sj%d_se%02d_single_trial.mat',sjNum,thisSession)])
+%% load single trial data
+load([sourceDirData '/' sprintf('sj%d_se%02d_single_trial.mat',sjNum,thisSession)])
+
+
+%% load visual cortex mask
+load([sourceDirMask '/' sprintf('sj%d_vis_cort_mask_benson.mat',sjNum)],'voxelMatMask')
+
+%% isolate visual cortex voxels using mask
+voxelMat=voxelMat(:,find(voxelMatMask>0));
+
 
 
 %% isolate orientation and location trials in the run (and remove target repeat trials) (col1: cond1=loc,cond2=ori, col5=ori,col6=loc)

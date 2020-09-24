@@ -3,6 +3,10 @@ singleTrialModeling
 Author: Tom Bullock (adapted from Tyler Santander scripts)
 Date: 07.17.18
 
+% THIS SCRIPT NEEDS FILE PATHS UPDATING!
+
+% This script gets the beta weights for each trial (scan?)
+
 %}
 
 function model_getSingleTrials(sjNum,thisSession)
@@ -31,7 +35,9 @@ mrDataPath = [rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.funct
 
 %subjectDir = '/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_0003';
 %mrDataPath = sprintf('/Users/tombullock/Documents/Psychology/GABOR_VO2_ANALYSIS/sj127_RAW/epi_mb_3x3x3_400TR_Gra_Physio_000%d',thisSession*3); % preprocessed MR data
-trialData = '/home/bullock/Scan_CPET/Trial_Data'; % preprocessed trial data
+
+%trialData = '/home/bullock/Scan_CPET/Trial_Data'; % preprocessed trial data
+trialData = '/home/bullock/Scan_CPET/Trial_Mats/Trial_Data_Processed';
 dataDir = mrDataPath;
 
 mkdir([rootDir '/' 'Subject_Data' '/' 'sj' num2str(sjNum) '/' 'data.singleTrial.' sessionID]);
